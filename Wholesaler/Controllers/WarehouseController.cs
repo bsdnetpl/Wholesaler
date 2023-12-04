@@ -30,10 +30,14 @@ namespace Wholesaler.Controllers
             bool[] results = await Task.WhenAll(v1, v2, v3);
             return Ok(true);
         }
-        [HttpGet("GetProductSku")]
-        public async Task <object> GetProductBySku(string sku)
+        [HttpGet("GetProductBySku")]
+        public async Task <ActionResult<object>> GetProductBySku(string sku)
         {
-            return await _serviceWar.GetProductsBySKU(sku);
+            if(sku is null)
+            {
+                return StatusCode(400, "Wrong data");
+            }
+            return Ok(await _serviceWar.GetProductsBySKU(sku));
         }
 
     }
