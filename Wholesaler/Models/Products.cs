@@ -21,7 +21,7 @@ namespace Wholesaler.Models
         public string EAN { get; set; }
         [Index(5)]
         //[Name("can_be_returned")]
-        public string Can_be_returned { get; set; } // true = 1 , false = 0
+        public string Can_be_returned { get; set; } 
         //[Name("producer_name")]
          [Index(6)]
         public string Producer_name { get; set; }
@@ -30,7 +30,7 @@ namespace Wholesaler.Models
         public string Category { get; set; }
         [Index(8)]
         //[Name("is_wire")]
-        public string Is_wire { get; set; } // true = 1 , false = 0
+        public string Is_wire { get; set; } 
         [Index(9)]
         //[Name("shipping")]
         public string Shipping { get; set; }
@@ -42,24 +42,24 @@ namespace Wholesaler.Models
         public string Available { get; set;}
         [Index(12)]
         //[Name("logistic_height")]
-        public string Logistic_height { get; set; } //in the file I see that this field is int, but I think this field can be double, but in this case I will leave int
+        public string Logistic_height { get; set; } 
         [Index(13)]
         //[Name("logistic_width")]
-        public string Logistic_width { get; set; } //in the file I see that this field is int, but I think this field can be double, but in this case I will leave int
+        public string Logistic_width { get; set; } 
         [Index(14)]
         //[Name("logistic_length")]
-        public string Logistic_length { get; set; } //in the file I see that this field is int, but I think this field can be double, but in this case I will leave int
+        public string Logistic_length { get; set; } 
         [Index(15)]
         //[Name("logistic_weight")]
         public string Logistic_weight { get; set; }
         [Index(16)]
         //[Name("is_vendor")]
-        public string Is_vendor { get; set; } // true = 1 , false = 0
+        public string Is_vendor { get; set; } 
         [Index(17)]
         //[Name("available_in_parcel_locker")]
-        public string Available_in_parcel_locker { get; set; } // true = 1 , false = 0
+        public string Available_in_parcel_locker { get; set; } 
         [Index(18)]
         //[Name("default_image")]
-        public string Default_image {  get; set; } // This field must be protected against possible abuse (linking photos).
+        public string Default_image {  get; set; } 
     }
 }
