@@ -16,6 +16,7 @@ namespace Wholesaler.Controllers
     [ApiController]
     public class WarehouseController : ControllerBase
     {   // Initialize the storage controller
+        // Initiates an interface to the controller while maintaining the composition, any modifications will be made at the interface level
         private readonly IServiceWar _serviceWar;
         public WarehouseController(IServiceWar serviceWar)
         {

@@ -4,7 +4,8 @@ using Wholesaler.Services;
 namespace Test
 {
     public class ServiceTest
-    {
+    {  //simple tests to check whether the interface works properly.
+
         private readonly Mock<IServiceWar> _serviceMock;
 
         public ServiceTest()
