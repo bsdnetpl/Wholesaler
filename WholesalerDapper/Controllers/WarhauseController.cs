@@ -14,10 +14,16 @@ namespace WholesalerDapper.Controllers
         {
             _serviceWarhause = serviceWarhause;
         }
-        [HttpGet("GetData")]
-        public async Task<ActionResult<bool>> ExtractCsvProductsD()
+        [HttpPost("ExtractCsvDapper")]
+        public async Task<ActionResult<bool>> GetProduct()
         {
-            return Ok( await _serviceWarhause.ExtractCsvProductsD());
+            // Running parallel asynchronous tasks to extract CSV data (products, inventory, prices)
+            var v1 = Task.Run(() => _serviceWarhause.ExtractCsvProductsD());
+            var v2 = Task.Run(() => _serviceWarhause.ExtractCsvInventoryD());
+            var v3 = Task.Run(() => _serviceWarhause.ExtractCsvPricesD());
+            // Wait for all asynchronous tasks to complete and save the results
+            bool[] results = await Task.WhenAll(v1, v2, v3);
+            return Ok(results);
         }
     }
 }
