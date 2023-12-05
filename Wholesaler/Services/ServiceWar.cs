@@ -109,12 +109,14 @@ namespace Wholesaler.Services
         public async Task<object> GetProductsBySKU(string sku)
         {
             //This is one of the possible solutions.
+            //it is not specified what should be returned, consequently it will be an object in json format, the frontend will know what to do with it;)
             var skuFind = (from ep in _mssqlConnect.ProductsDB
                            join p in _mssqlConnect.PricesDB on ep.SKU equals p.SKU
                            join i in _mssqlConnect.InventoriesDB on p.SKU equals i.SKU
                            where i.SKU == sku
                            select new { 
-                           ep.Name,ep.EAN, 
+                           ep.Name,
+                           ep.EAN, 
                            i.Manufacturer_name, 
                            ep.Category,
                            ep.Default_image,
