@@ -31,7 +31,7 @@ namespace Wholesaler.Controllers
             var v3 = Task.Run(() => _serviceWar.ExtractCsvPrices());
             // Wait for all asynchronous tasks to complete and save the results
             bool[] results = await Task.WhenAll(v1, v2, v3);
-            return Ok(true);
+            return Ok(results);
         }
         // HTTP GET method that returns the product with the given SKU number
         [HttpGet("GetProductBySku")]

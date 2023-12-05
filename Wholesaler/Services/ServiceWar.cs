@@ -31,6 +31,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
+           
             // Configure the CSV reader
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -60,6 +61,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
+          
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = true,
@@ -86,6 +88,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
+         
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = false,
@@ -105,12 +108,21 @@ namespace Wholesaler.Services
         // Join Products, Prices and Inventories tables on SKU
         public async Task<object> GetProductsBySKU(string sku)
         {
-
+            //This is one of the possible solutions.
             var skuFind = (from ep in _mssqlConnect.ProductsDB
                            join p in _mssqlConnect.PricesDB on ep.SKU equals p.SKU
                            join i in _mssqlConnect.InventoriesDB on p.SKU equals i.SKU
                            where i.SKU == sku
-                           select new { ep.Name,ep.EAN, i.Manufacturer_name, ep.Category,ep.Default_image,ep.Available, p.Nett_product_price_discount_logistic_unit, p.Nett_product_price, i.Shipping_cost});
+                           select new { 
+                           ep.Name,ep.EAN, 
+                           i.Manufacturer_name, 
+                           ep.Category,
+                           ep.Default_image,
+                           ep.Available, 
+                           p.Nett_product_price_discount_logistic_unit, 
+                           p.Nett_product_price, 
+                           i.Shipping_cost
+                           });
             return skuFind;
 
         }
