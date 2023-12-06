@@ -6,5 +6,6 @@ namespace WholesalerDapper.Service
         Task<bool> ExtractCsvInventoryD();
         Task<bool> ExtractCsvPricesD();
         Task<bool> ExtractCsvProductsD();
+        Task<object> GetProductsBySKUD(string sku);
     }
 }

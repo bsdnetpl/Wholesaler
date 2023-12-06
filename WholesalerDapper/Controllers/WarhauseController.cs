@@ -25,5 +25,14 @@ namespace WholesalerDapper.Controllers
             bool[] results = await Task.WhenAll(v1, v2, v3);
             return Ok(results);
         }
+        [HttpGet("GetProductBySku")]
+        public async Task<ActionResult<object>> GetProductBySku(string sku)
+        {
+            if (sku is null)
+            {
+                return StatusCode(400, "Wrong data");
+            }
+            return Ok(await _serviceWarhause.GetProductsBySKUD(sku));
+        }
     }
 }

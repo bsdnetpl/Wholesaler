@@ -7,6 +7,7 @@ using Wholesaler.Models;
 using WholesalerDapper.DB;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using Wholesaler.DB;
+using Microsoft.Data.SqlClient;
 
 namespace WholesalerDapper.Service
 {
@@ -124,5 +125,27 @@ namespace WholesalerDapper.Service
             }
             return true;
         }
+        public async Task<object> GetProductsBySKUD(string sku)
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                var query = "SELECT ProductsDB.Name," +
+                                " ProductsDB.EAN," +
+                                "InventoriesDB.Manufacturer_name," +
+                                "ProductsDB.Category," +
+                                "ProductsDB.Default_image," +
+                                "ProductsDB.Available," +
+                                "PricesDB.Nett_product_price_discount_logistic_unit," +
+                                "PricesDB.Nett_product_price," +
+                                "InventoriesDB.Shipping_cost" +
+                                "FROM ProductsDB" +
+                                "inner join PricesDB on ProductsDB.SKU = PricesDB.SKU" +
+                                "inner join InventoriesDB on ProductsDB.SKU = InventoriesDB.SKU" +
+                                "where ProductsDB.SKU = '"+sku+"'";
+                var products = await connection.QueryAsync<object>(query);
+                return products;
+            }
+        }
+
     }
 }
