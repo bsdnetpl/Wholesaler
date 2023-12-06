@@ -3,12 +3,12 @@ using Wholesaler.Services;
 
 namespace Test
 {
-    public class ServiceTest
+    public class ServiceWarTest
     {  //simple tests to check whether the interface works properly.
 
         private readonly Mock<IServiceWar> _serviceMock;
 
-        public ServiceTest()
+        public ServiceWarTest()
         {
             _serviceMock = new Mock<IServiceWar>();
         }

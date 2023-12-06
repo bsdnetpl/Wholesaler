@@ -17,7 +17,12 @@ namespace WholesalerDapper.Controllers
         [HttpPost("ExtractCsvDapper")]
         public async Task<ActionResult<bool>> GetProduct()
         {
-            // Running parallel asynchronous tasks to extract CSV data (products, inventory, prices)
+         try
+        {
+                // Running parallel asynchronous tasks to extract CSV data (products, inventory, prices)
+            _serviceWarhause.TruncateTable("ProductsDB");
+            _serviceWarhause.TruncateTable("InventoriesDB");
+            _serviceWarhause.TruncateTable("PricesDB");
             var v1 = Task.Run(() => _serviceWarhause.ExtractCsvProductsD());
             var v2 = Task.Run(() => _serviceWarhause.ExtractCsvInventoryD());
             var v3 = Task.Run(() => _serviceWarhause.ExtractCsvPricesD());
@@ -25,14 +30,28 @@ namespace WholesalerDapper.Controllers
             bool[] results = await Task.WhenAll(v1, v2, v3);
             return Ok(results);
         }
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
+        }
         [HttpGet("GetProductBySku")]
         public async Task<ActionResult<object>> GetProductBySku(string sku)
         {
-            if (sku is null)
+            try
             {
-                return StatusCode(400, "Wrong data");
+                if (sku is null)
+                {
+                    return StatusCode(400, "Wrong data");
+                }
+                return Ok(await _serviceWarhause.GetProductsBySKUD(sku));
             }
-            return Ok(await _serviceWarhause.GetProductsBySKUD(sku));
+            catch (Exception ex)
+            {
+                //log error
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

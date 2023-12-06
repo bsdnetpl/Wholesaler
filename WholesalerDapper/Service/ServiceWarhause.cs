@@ -48,11 +48,7 @@ namespace WholesalerDapper.Service
 
                 using (var connection = _context.CreateConnection())
                 {
-                    connection.Open();
-                    foreach (var product in prod)
-                    {
-                        await connection.ExecuteAsync(query, product);
-                    }
+                   await connection.ExecuteAsync(query, prod);
                 }
             }
             return true;
@@ -82,11 +78,7 @@ namespace WholesalerDapper.Service
 
                 using (var connection = _context.CreateConnection())
                 {
-                    connection.Open();
-                    foreach (var prices in prod)
-                    {
-                        await connection.ExecuteAsync(query, prices);
-                    }
+                   await connection.ExecuteAsync(query, prod);
                 }
             }
             return true;
@@ -116,34 +108,29 @@ namespace WholesalerDapper.Service
 
                 using (var connection = _context.CreateConnection())
                 {
-                    connection.Open();
-                    foreach (var prices in records)
-                    {
-                        await connection.ExecuteAsync(query, prices);
-                    }
+                   await connection.ExecuteAsync(query, records);
                 }
             }
             return true;
         }
+        //This is one of the possible solutions.
+        //it is not specified what should be returned, consequently it will be an object in json format.
+        //Of course, I could have used the option with @sku parameters
         public async Task<object> GetProductsBySKUD(string sku)
         {
             using (var connection = _context.CreateConnection())
             {
-                var query = "SELECT ProductsDB.Name," +
-                                " ProductsDB.EAN," +
-                                "InventoriesDB.Manufacturer_name," +
-                                "ProductsDB.Category," +
-                                "ProductsDB.Default_image," +
-                                "ProductsDB.Available," +
-                                "PricesDB.Nett_product_price_discount_logistic_unit," +
-                                "PricesDB.Nett_product_price," +
-                                "InventoriesDB.Shipping_cost" +
-                                "FROM ProductsDB" +
-                                "inner join PricesDB on ProductsDB.SKU = PricesDB.SKU" +
-                                "inner join InventoriesDB on ProductsDB.SKU = InventoriesDB.SKU" +
-                                "where ProductsDB.SKU = '"+sku+"'";
-                var products = await connection.QueryAsync<object>(query);
+                var query = "SELECT ProductsDB.Name,ProductsDB.EAN,InventoriesDB.Manufacturer_name,ProductsDB.Category,ProductsDB.Default_image,ProductsDB.Available,PricesDB.Nett_product_price_discount_logistic_unit,PricesDB.Nett_product_price,InventoriesDB.Shipping_cost FROM ProductsDB inner join PricesDB on ProductsDB.SKU = PricesDB.SKU inner join InventoriesDB on ProductsDB.SKU = InventoriesDB.SKU where ProductsDB.SKU = '" + sku + "'";
+                var products = await connection.QuerySingleAsync<object>(query);
                 return products;
+            }
+        }
+
+        public void TruncateTable(string TableName)// Truncate Table start to new 
+        {
+            using (var connection = _context.CreateConnection())
+            {
+                connection.Execute($"Truncate Table {TableName}"); 
             }
         }
 

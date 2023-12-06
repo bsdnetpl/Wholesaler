@@ -5,8 +5,6 @@ namespace Wholesaler.Models
 {
     public class Prices
     {
-
-     
         public string Id { get; set; }
         public string SKU { get; set; }
         public string Nett_product_price { get; set; }

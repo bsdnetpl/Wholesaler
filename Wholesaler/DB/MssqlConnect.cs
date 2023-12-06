@@ -16,12 +16,14 @@ namespace Wholesaler.DB
             base.OnModelCreating(modelBuilder);
             // Add unique index on SKU property of Products entity
             modelBuilder.Entity<Products>().HasIndex(e => e.SKU).IsUnique();
+            modelBuilder.Entity<Products>().HasKey(e => e.Id);
             // Add unique index on SKU property of Inventory entity
             modelBuilder.Entity<Inventory>().HasIndex(e => e.SKU).IsUnique();
             // Add composite primary key on Product_id property of Inventory entity
             modelBuilder.Entity<Inventory>().HasKey(e => e.Product_id);
             // Add unique index on SKU property of Prices entity
             modelBuilder.Entity<Prices>().HasIndex(e => e.SKU).IsUnique();
+            modelBuilder.Entity<Prices>().HasKey(e => e.Id);
         }
     }
 }

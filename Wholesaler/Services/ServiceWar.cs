@@ -24,6 +24,7 @@ namespace Wholesaler.Services
         // Extracts products from CSV file and adds them to the database
         public async Task<bool> ExtractCsvProducts()
         {
+            _mssqlConnect.Database.ExecuteSqlRaw("TRUNCATE TABLE ProductsDB"); // Truncate Table start to new 
             // Download the CSV file from the specified URL
             var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Products.csv");
 
@@ -55,6 +56,7 @@ namespace Wholesaler.Services
         // Extracts inventory from CSV file and adds it to the database
         public async Task<bool> ExtractCsvInventory()
         {
+            _mssqlConnect2.Database.ExecuteSqlRaw("TRUNCATE TABLE InventoriesDB");// Truncate Table start to new 
             // Download the CSV file from the specified URL
             var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Inventory.csv");
             if (!tf)
@@ -82,6 +84,7 @@ namespace Wholesaler.Services
         }
         public async Task<bool> ExtractCsvPrices()
         {
+            _mssqlConnect3.Database.ExecuteSqlRaw("TRUNCATE TABLE PricesDB");// Truncate Table start to new 
             // Download the CSV file from the specified URL
             var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Prices.csv");
             if (!tf)

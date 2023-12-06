@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WholesalerDapper\WholesalerDapper.csproj" />
     <ProjectReference Include="..\Wholesaler\Wholesaler.csproj" />
   </ItemGroup>
 
