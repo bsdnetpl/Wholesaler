@@ -4,6 +4,9 @@ using System.Globalization;
 using Wholesaler.DB;
 using Wholesaler.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
+using System.Reflection.Metadata;
 
 namespace Wholesaler.Services
 {
@@ -32,7 +35,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
-           
+
             // Configure the CSV reader
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -63,7 +66,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
-          
+
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = true,
@@ -91,7 +94,7 @@ namespace Wholesaler.Services
             {
                 return false;
             }
-         
+
             var config = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
                 HasHeaderRecord = false,
@@ -107,6 +110,7 @@ namespace Wholesaler.Services
                 await _mssqlConnect3.SaveChangesAsync();
                 return true;
             }
+
         }
         // Join Products, Prices and Inventories tables on SKU
         public async Task<object> GetProductsBySKU(string sku)
@@ -117,19 +121,26 @@ namespace Wholesaler.Services
                            join p in _mssqlConnect.PricesDB on ep.SKU equals p.SKU
                            join i in _mssqlConnect.InventoriesDB on p.SKU equals i.SKU
                            where i.SKU == sku
-                           select new { 
-                           ep.Name,
-                           ep.EAN, 
-                           i.Manufacturer_name, 
-                           ep.Category,
-                           ep.Default_image,
-                           ep.Available, 
-                           p.Nett_product_price_discount_logistic_unit, 
-                           p.Nett_product_price, 
-                           i.Shipping_cost
+                           select new
+                           {
+                               ep.Name,
+                               ep.EAN,
+                               i.Manufacturer_name,
+                               ep.Category,
+                               ep.Default_image,
+                               ep.Available,
+                               p.Nett_product_price_discount_logistic_unit,
+                               p.Nett_product_price,
+                               i.Shipping_cost
                            });
             return skuFind;
 
+        }
+
+        public void Cleaning() //I added function to remove records that are not in the Products table,on table prices and inventories
+        {
+            _mssqlConnect3.Database.ExecuteSqlRaw("DELETE Price FROM PricesDB Price LEFT JOIN ProductsDB Pro ON Pro.SKU = Price.SKU WHERE Pro.SKU IS NULL");
+            _mssqlConnect3.Database.ExecuteSqlRaw("DELETE Inv FROM InventoriesDB Inv LEFT JOIN ProductsDB Pro ON Pro.SKU = Inv.SKU WHERE Inv.SKU IS NULL");
         }
     }
 }

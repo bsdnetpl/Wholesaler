@@ -19,7 +19,7 @@ namespace WholesalerDapper.Service
         public ServiceWarhause(DapperContext context, CSV cSV)
         {
             _context = context;
-            this.cSV = cSV;
+            cSV = cSV;
         }
 
         public async Task<bool> ExtractCsvProductsD()

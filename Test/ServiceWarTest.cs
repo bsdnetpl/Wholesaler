@@ -12,6 +12,19 @@ namespace Test
         {
             _serviceMock = new Mock<IServiceWar>();
         }
+        [Fact]
+        public async Task Cleaning_Should_Invoke_Cleaning_Method()
+        {
+            // Arrange
+            var serviceMock = new Mock<IServiceWar>();
+            serviceMock.Setup(x => x.Cleaning());
+
+            // Act
+            serviceMock.Object.Cleaning();
+
+            // Assert
+            serviceMock.Verify(x => x.Cleaning(), Times.Once);
+        }
 
         [Fact]
         public async Task ExtractCsvInventory_ReturnsTrue()

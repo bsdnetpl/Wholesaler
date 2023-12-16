@@ -34,6 +34,7 @@ namespace Wholesaler.Controllers
                 var v3 = Task.Run(() => _serviceWar.ExtractCsvPrices());
                 // Wait for all asynchronous tasks to complete and save the results
                 bool[] results = await Task.WhenAll(v1, v2, v3);
+                _serviceWar.Cleaning();
                 return Ok(results);
             }
             catch (Exception ex)
