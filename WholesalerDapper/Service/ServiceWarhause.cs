@@ -14,17 +14,17 @@ namespace WholesalerDapper.Service
     public class ServiceWarhause : IServiceWarhause
     {
         private readonly DapperContext _context;
-        private readonly CSV cSV;
+        private readonly CSV _cSV;
 
         public ServiceWarhause(DapperContext context, CSV cSV)
         {
             _context = context;
-            cSV = cSV;
+            _cSV = cSV;
         }
 
         public async Task<bool> ExtractCsvProductsD()
         {
-            var tf = cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Products.csv");
+            var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Products.csv");
             if (!tf)
             {
                 return false;
@@ -56,7 +56,7 @@ namespace WholesalerDapper.Service
         public async Task<bool> ExtractCsvInventoryD()
         {
             // Download the CSV file from the specified URL
-            var tf = cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Inventory.csv");
+            var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Inventory.csv");
             if (!tf)
             {
                 return false;
@@ -86,7 +86,7 @@ namespace WholesalerDapper.Service
         public async Task<bool> ExtractCsvPricesD()
         {
             // Download the CSV file from the specified URL
-            var tf = cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Prices.csv");
+            var tf = _cSV.DownloadFile("https://rekturacjazadanie.blob.core.windows.net/zadanie/Prices.csv");
             if (!tf)
             {
                 return false;
